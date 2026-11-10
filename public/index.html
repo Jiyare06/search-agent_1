@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Lookout — answers that know what day it is</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Roboto:wght@500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <!-- Top bar -->
+    <header class="topbar">
+      <button id="toggle-sidebar" class="icon-btn" aria-label="Toggle chats">☰</button>
+      <a class="brand" href="#chat"><span class="cat-mini" data-cat="head" data-size="24"></span>Lookout</a>
+      <nav class="nav">
+        <a href="#chat" data-view="chat">Chat</a>
+        <a href="#how" data-view="how">How it works</a>
+        <a href="#memory" data-view="memory">Memory</a>
+        <a href="#" id="open-about">About</a>
+      </nav>
+      <button id="new-chat-top" class="pill-btn">New chat</button>
+    </header>
+
+    <div class="shell">
+      <!-- Sidebar: chats -->
+      <aside id="sidebar">
+        <button id="new-chat" class="ghost-btn">+ New chat</button>
+        <div class="eyebrow side-label">Recent chats</div>
+        <nav id="conversations" aria-label="Conversations"></nav>
+        <div class="sidebar-foot" id="config-info"></div>
+      </aside>
+
+      <main>
+        <div id="banner" class="banner" hidden></div>
+
+        <!-- ============ CHAT VIEW ============ -->
+        <section id="view-chat" class="view">
+          <div id="messages" aria-live="polite"></div>
+          <form id="composer">
+            <textarea id="input" rows="1" placeholder="Ask anything. I check the web when facts may have changed…" autocomplete="off"></textarea>
+            <button id="send" type="submit" aria-label="Send">↑</button>
+            <button id="stop" type="button" aria-label="Stop" hidden>■</button>
+          </form>
+        </section>
+
+        <!-- ============ HOW IT WORKS ============ -->
+        <section id="view-how" class="view page" hidden>
+          <div class="eyebrow">How it works</div>
+          <h2 class="display">From a question to a <em>cited answer.</em></h2>
+          <p class="lede">Every message goes through the same five steps. The first one never calls a model, which is why answers start fast.</p>
+          <div class="steps">
+            <ol id="step-rail" class="step-rail"></ol>
+            <article id="step-card" class="step-card"></article>
+          </div>
+        </section>
+
+        <!-- ============ MEMORY ============ -->
+        <section id="view-memory" class="view page" hidden>
+          <div class="eyebrow">Memory</div>
+          <h2 class="display">Everything you asked, <em>by date.</em></h2>
+          <p class="lede">After each answer I write down the checkable facts — prices, releases, what you told me. Ask “has it changed?” and I compare against exactly these.</p>
+          <div id="stats" class="stats"></div>
+
+          <div class="panel">
+            <div class="panel-head">
+              <h3 id="facts-title">Facts I'm tracking</h3>
+              <input id="fact-filter" class="search" placeholder="Search a product, price, topic…" />
+            </div>
+            <ul id="facts" class="rows"></ul>
+            <div class="panel-foot">Facts are recorded with the date I said them. “Re-check” opens a new chat that compares them against today's web.</div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head"><h3>Timeline</h3></div>
+            <div id="timeline" class="timeline"></div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <!-- About modal -->
+    <dialog id="about" class="modal">
+      <div style="display:flex;align-items:center;gap:12px"><span data-cat="full" data-size="56"></span><div class="eyebrow">About the data</div></div>
+      <h3 class="display small">What I use, and <em>what I can't see.</em></h3>
+      <div class="cols">
+        <div>
+          <h4>Sources</h4>
+          <ul>
+            <li><b>Web search</b>: live results with publish dates. Each claim is cited with a numbered source.</li>
+            <li><b>Your history</b>: every chat, stored locally on this machine with its date.</li>
+            <li><b>The model's own knowledge</b>: used only for stable facts, and flagged when it could be stale.</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Limitations</h4>
+          <ul>
+            <li>Search passages can lag the real page, especially pricing tables.</li>
+            <li>Paywalled or JavaScript-only pages may not be readable.</li>
+            <li>Memory lives on this computer only; clearing <code>data/</code> erases it.</li>
+          </ul>
+        </div>
+      </div>
+      <form method="dialog"><button class="pill-btn">Got it</button></form>
+    </dialog>
+
+    <script src="/vendor/marked.js"></script>
+    <script src="/vendor/purify.js"></script>
+    <script src="/app.js"></script>
+  </body>
+</html>
